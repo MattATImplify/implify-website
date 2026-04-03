@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Implify Solutions — IT Implementation Consultancy</title>
+<meta name="description" content="Implify Solutions Ltd is an IT consultancy specialising in software implementation for enterprise clients.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0A1628;
+  --navy-light: #0f2035;
+  --navy-mid: #142844;
+  --blue: #1A3FBF;
+  --blue-light: #2952d4;
+  --blue-glow: rgba(26, 63, 191, 0.15);
+  --cream: #f4efe6;
+  --cream-dim: rgba(244, 239, 230, 0.7);
+  --cream-faint: rgba(244, 239, 230, 0.12);
+  --white: #ffffff;
+  --grey-100: #f7f7f8;
+  --grey-200: #e8e8ec;
+  --grey-400: #9498a4;
+  --grey-600: #5a5e6b;
+  --grey-800: #2c2f38;
+  --font-heading: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --max-w: 1200px;
+  --nav-h: 72px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-body);
+  color: var(--grey-800);
+  background: var(--white);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 2rem; }
+
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 400; line-height: 1.2; }
+h1 { font-size: clamp(2.4rem, 5vw, 3.6rem); }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); }
+h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: var(--nav-h);
+  background: rgba(10, 22, 40, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(244, 239, 230, 0.06);
+  transition: background var(--transition);
+}
+.nav-inner {
+  max-width: var(--max-w); margin: 0 auto; padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 100%;
+}
+.nav-logo {
+  font-family: var(--font-heading); font-size: 1.35rem;
+  color: var(--cream); letter-spacing: -0.01em;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.nav-logo-mark {
+  width: 32px; height: 32px; position: relative;
+}
+.nav-logo-mark svg { width: 100%; height: 100%; }
+.nav-links { display: flex; align-items: center; gap: 2.2rem; list-style: none; }
+.nav-links a {
+  color: var(--cream-dim); font-size: 0.9rem; font-weight: 400;
+  letter-spacing: 0.02em; transition: color var(--transition);
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1.5px; background: var(--blue-light);
+  transition: width var(--transition);
+}
+.nav-links a:hover, .nav-links a.active { color: var(--cream); }
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+.nav-cta {
+  background: var(--blue); color: var(--cream); padding: 0.55rem 1.4rem;
+  border-radius: 6px; font-size: 0.85rem; font-weight: 500;
+  letter-spacing: 0.02em; transition: all var(--transition);
+}
+.nav-cta:hover { background: var(--blue-light); transform: translateY(-1px); }
+.nav-cta::after { display: none !important; }
+
+/* Mobile menu */
+.nav-toggle {
+  display: none; flex-direction: column; gap: 5px; padding: 4px;
+  cursor: pointer; z-index: 1001;
+}
+.nav-toggle span {
+  width: 22px; height: 2px; background: var(--cream);
+  transition: all var(--transition); border-radius: 2px;
+}
+.nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+@media (max-width: 768px) {
+  .nav-toggle { display: flex; }
+  .nav-links {
+    position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
+    background: var(--navy); flex-direction: column; justify-content: center;
+    gap: 2rem; padding: 2rem; transition: right var(--transition);
+    box-shadow: -20px 0 60px rgba(0,0,0,0.3);
+  }
+  .nav-links.open { right: 0; }
+  .nav-links a { font-size: 1.1rem; }
+}
+
+/* ============================================================
+   PAGE SYSTEM
+   ============================================================ */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  min-height: 100vh; background: var(--navy); color: var(--cream);
+  display: flex; align-items: center; position: relative; overflow: hidden;
+  padding-top: var(--nav-h);
+}
+.hero-bg {
+  position: absolute; inset: 0; overflow: hidden;
+}
+.hero-grid {
+  position: absolute; inset: 0; opacity: 0.04;
+  background-image:
+    linear-gradient(rgba(244,239,230,0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244,239,230,0.3) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-gradient {
+  position: absolute; top: -40%; right: -20%; width: 80vw; height: 80vw;
+  background: radial-gradient(circle, var(--blue-glow) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-gradient-2 {
+  position: absolute; bottom: -30%; left: -10%; width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(26, 63, 191, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-shapes {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.hero-shape {
+  position: absolute; border: 1px solid rgba(244, 239, 230, 0.06);
+  border-radius: 2px;
+}
+.hero-shape-1 {
+  width: 300px; height: 300px; top: 15%; right: 8%;
+  transform: rotate(15deg);
+  border-color: rgba(26, 63, 191, 0.15);
+}
+.hero-shape-2 {
+  width: 180px; height: 180px; top: 55%; right: 22%;
+  transform: rotate(-30deg);
+  border-color: rgba(244, 239, 230, 0.05);
+}
+.hero-shape-3 {
+  width: 120px; height: 120px; bottom: 20%; left: 5%;
+  transform: rotate(45deg);
+  border-color: rgba(26, 63, 191, 0.1);
+}
+.hero-dot {
+  position: absolute; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--blue); opacity: 0.3;
+}
+.hero-dot-1 { top: 25%; right: 35%; }
+.hero-dot-2 { top: 60%; right: 12%; }
+.hero-dot-3 { bottom: 30%; left: 15%; }
+.hero-line {
+  position: absolute; height: 1px; background: linear-gradient(90deg, transparent, rgba(26,63,191,0.12), transparent);
+}
+.hero-line-1 { top: 35%; left: 0; right: 0; }
+.hero-line-2 { top: 70%; left: 0; right: 0; }
+
+.hero-content {
+  position: relative; z-index: 2; max-width: 680px;
+  padding: 4rem 0;
+}
+.hero-label {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--blue-light);
+  margin-bottom: 1.8rem;
+}
+.hero-label-line {
+  width: 28px; height: 1px; background: var(--blue-light);
+}
+.hero h1 {
+  margin-bottom: 1.5rem; color: var(--cream);
+  letter-spacing: -0.02em;
+}
+.hero h1 em {
+  font-style: normal; color: var(--blue-light);
+}
+.hero-sub {
+  font-size: 1.1rem; line-height: 1.7; color: var(--cream-dim);
+  max-width: 520px; margin-bottom: 2.5rem;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 1.8rem; border-radius: 6px;
+  font-size: 0.92rem; font-weight: 500; letter-spacing: 0.02em;
+  transition: all var(--transition);
+}
+.btn-primary {
+  background: var(--blue); color: var(--cream);
+  box-shadow: 0 2px 12px rgba(26, 63, 191, 0.25);
+}
+.btn-primary:hover {
+  background: var(--blue-light);
+  box-shadow: 0 4px 20px rgba(26, 63, 191, 0.35);
+  transform: translateY(-2px);
+}
+.btn-outline {
+  border: 1px solid var(--cream-faint); color: var(--cream);
+}
+.btn-outline:hover {
+  border-color: var(--cream-dim); background: rgba(244, 239, 230, 0.05);
+}
+.btn-dark {
+  background: var(--navy); color: var(--cream);
+}
+.btn-dark:hover {
+  background: var(--navy-light); transform: translateY(-2px);
+}
+.btn-arrow { transition: transform var(--transition); }
+.btn:hover .btn-arrow { transform: translateX(3px); }
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.section {
+  padding: 6rem 0;
+}
+.section-dark {
+  background: var(--navy); color: var(--cream);
+}
+.section-alt {
+  background: var(--grey-100);
+}
+.section-label {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--blue);
+  margin-bottom: 1rem;
+}
+.section-dark .section-label { color: var(--blue-light); }
+.section-label-line { width: 24px; height: 1px; background: currentColor; }
+.section-header { max-width: 600px; margin-bottom: 3.5rem; }
+.section-header p {
+  margin-top: 1rem; color: var(--grey-600); line-height: 1.7;
+}
+.section-dark .section-header p { color: var(--cream-dim); }
+.section-header-center { text-align: center; margin-left: auto; margin-right: auto; }
+
+/* ============================================================
+   SERVICES OVERVIEW (Homepage)
+   ============================================================ */
+.services-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+@media (max-width: 768px) {
+  .services-grid { grid-template-columns: 1fr; }
+}
+.service-card {
+  background: var(--white); border: 1px solid var(--grey-200);
+  border-radius: 10px; padding: 2.2rem; position: relative;
+  transition: all var(--transition); overflow: hidden;
+}
+.service-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--blue); opacity: 0;
+  transition: opacity var(--transition);
+}
+.service-card:hover {
+  border-color: transparent;
+  box-shadow: 0 8px 30px rgba(10, 22, 40, 0.08);
+  transform: translateY(-3px);
+}
+.service-card:hover::before { opacity: 1; }
+
+.service-icon {
+  width: 48px; height: 48px; border-radius: 10px;
+  background: var(--blue-glow); display: flex; align-items: center;
+  justify-content: center; margin-bottom: 1.3rem;
+}
+.service-icon svg { width: 24px; height: 24px; color: var(--blue); }
+
+.service-card h3 { margin-bottom: 0.7rem; color: var(--navy); }
+.service-card p { color: var(--grey-600); font-size: 0.92rem; line-height: 1.65; }
+
+/* ============================================================
+   WHY IMPLIFY
+   ============================================================ */
+.why-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem;
+}
+@media (max-width: 768px) {
+  .why-grid { grid-template-columns: 1fr; gap: 2rem; }
+}
+.why-item { }
+.why-number {
+  font-family: var(--font-heading); font-size: 2.4rem;
+  color: var(--blue); opacity: 0.2; margin-bottom: 0.6rem;
+}
+.section-dark .why-number { color: var(--blue-light); opacity: 0.3; }
+.why-item h3 { margin-bottom: 0.6rem; font-size: 1.2rem; }
+.why-item p { font-size: 0.9rem; line-height: 1.7; }
+.section-dark .why-item p { color: var(--cream-dim); }
+
+/* ============================================================
+   HOW WE WORK
+   ============================================================ */
+.process-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+  position: relative;
+}
+.process-steps::before {
+  content: ''; position: absolute; top: 32px; left: 10%; right: 10%;
+  height: 1px; background: var(--grey-200);
+}
+@media (max-width: 768px) {
+  .process-steps { grid-template-columns: 1fr 1fr; }
+  .process-steps::before { display: none; }
+}
+@media (max-width: 480px) {
+  .process-steps { grid-template-columns: 1fr; }
+}
+.process-step { text-align: center; position: relative; }
+.process-step-num {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--blue-glow); border: 2px solid var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.2rem;
+  font-family: var(--font-heading); font-size: 1.3rem;
+  color: var(--blue); position: relative; z-index: 2;
+  background: var(--white);
+}
+.process-step h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.process-step p { font-size: 0.85rem; color: var(--grey-600); line-height: 1.6; }
+
+/* ============================================================
+   CTA BAND
+   ============================================================ */
+.cta-band {
+  background: var(--navy); color: var(--cream); padding: 5rem 0;
+  text-align: center; position: relative; overflow: hidden;
+}
+.cta-band::before {
+  content: ''; position: absolute; top: -50%; left: 50%;
+  transform: translateX(-50%); width: 120vw; height: 120vw;
+  background: radial-gradient(circle, rgba(26,63,191,0.1) 0%, transparent 60%);
+  border-radius: 50%;
+}
+.cta-band h2 { margin-bottom: 1rem; position: relative; }
+.cta-band p {
+  color: var(--cream-dim); max-width: 500px; margin: 0 auto 2rem;
+  position: relative;
+}
+
+/* ============================================================
+   SERVICES PAGE
+   ============================================================ */
+.page-hero {
+  background: var(--navy); color: var(--cream);
+  padding: 10rem 0 5rem; position: relative; overflow: hidden;
+}
+.page-hero .hero-grid { position: absolute; inset: 0; opacity: 0.03; }
+.page-hero-content { position: relative; z-index: 2; max-width: 600px; }
+.page-hero h1 { margin-bottom: 1rem; }
+.page-hero p { color: var(--cream-dim); font-size: 1.05rem; line-height: 1.7; }
+
+.service-detail {
+  padding: 5rem 0; border-bottom: 1px solid var(--grey-200);
+}
+.service-detail:last-of-type { border-bottom: none; }
+.service-detail-inner {
+  display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem;
+  align-items: start;
+}
+@media (max-width: 768px) {
+  .service-detail-inner { grid-template-columns: 1fr; gap: 2rem; }
+}
+.service-detail-label {
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--blue); margin-bottom: 0.8rem;
+}
+.service-detail h2 { font-size: 1.8rem; margin-bottom: 1rem; }
+.service-detail p {
+  color: var(--grey-600); margin-bottom: 1rem; line-height: 1.7;
+}
+.service-detail-list {
+  list-style: none; margin-top: 1.5rem;
+}
+.service-detail-list li {
+  padding: 0.6rem 0; padding-left: 1.5rem; position: relative;
+  color: var(--grey-600); font-size: 0.92rem;
+}
+.service-detail-list li::before {
+  content: ''; position: absolute; left: 0; top: 1rem;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--blue); opacity: 0.5;
+}
+
+/* geometric accent for service sections */
+.service-detail-graphic {
+  width: 100%; aspect-ratio: 4/3; border-radius: 12px;
+  background: var(--grey-100); position: relative; overflow: hidden;
+  border: 1px solid var(--grey-200);
+}
+.service-detail-graphic-inner {
+  position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: center;
+}
+.geo-pattern {
+  width: 60%; height: 60%; position: relative;
+}
+.geo-rect {
+  position: absolute; border: 1.5px solid var(--blue); border-radius: 3px; opacity: 0.15;
+}
+.geo-circle {
+  position: absolute; border: 1.5px solid var(--blue); border-radius: 50%; opacity: 0.12;
+}
+.geo-dot {
+  position: absolute; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--blue); opacity: 0.25;
+}
+
+/* ============================================================
+   ABOUT PAGE
+   ============================================================ */
+.about-content {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+  align-items: start;
+}
+@media (max-width: 768px) {
+  .about-content { grid-template-columns: 1fr; gap: 2rem; }
+}
+.about-text p {
+  color: var(--grey-600); margin-bottom: 1.2rem; line-height: 1.75;
+}
+.about-text p:first-of-type {
+  font-size: 1.05rem; color: var(--grey-800);
+}
+
+.about-values {
+  background: var(--grey-100); border-radius: 12px; padding: 2.5rem;
+  border: 1px solid var(--grey-200);
+}
+.about-values h3 { margin-bottom: 1.5rem; color: var(--navy); }
+.about-value {
+  padding: 1rem 0; border-bottom: 1px solid var(--grey-200);
+}
+.about-value:last-child { border-bottom: none; padding-bottom: 0; }
+.about-value h4 {
+  font-family: var(--font-body); font-weight: 600; font-size: 0.95rem;
+  color: var(--navy); margin-bottom: 0.3rem;
+}
+.about-value p { font-size: 0.88rem; color: var(--grey-600); }
+
+.about-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+  margin-top: 4rem;
+}
+@media (max-width: 480px) {
+  .about-stats { grid-template-columns: 1fr; text-align: center; }
+}
+.about-stat-num {
+  font-family: var(--font-heading); font-size: 2.8rem; color: var(--blue);
+}
+.about-stat-label {
+  font-size: 0.85rem; color: var(--grey-600); margin-top: 0.2rem;
+}
+
+/* ============================================================
+   CONTACT PAGE
+   ============================================================ */
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem;
+}
+@media (max-width: 768px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+.contact-info h2 { font-size: 1.8rem; margin-bottom: 1rem; }
+.contact-info > p {
+  color: var(--grey-600); margin-bottom: 2rem; line-height: 1.7;
+}
+.contact-detail {
+  display: flex; align-items: flex-start; gap: 0.8rem;
+  margin-bottom: 1.4rem;
+}
+.contact-detail-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--blue-glow); display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0; margin-top: 2px;
+}
+.contact-detail-icon svg { width: 16px; height: 16px; color: var(--blue); }
+.contact-detail-label {
+  font-size: 0.8rem; font-weight: 500; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--grey-400); margin-bottom: 0.15rem;
+}
+.contact-detail-value { color: var(--grey-800); font-size: 0.95rem; }
+
+.contact-form {
+  background: var(--grey-100); border-radius: 12px; padding: 2.5rem;
+  border: 1px solid var(--grey-200);
+}
+.form-row { margin-bottom: 1.4rem; }
+.form-row label {
+  display: block; font-size: 0.85rem; font-weight: 500;
+  color: var(--grey-800); margin-bottom: 0.4rem;
+}
+.form-row input, .form-row textarea, .form-row select {
+  width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--grey-200);
+  border-radius: 6px; font-family: var(--font-body); font-size: 0.92rem;
+  background: var(--white); color: var(--grey-800);
+  transition: border-color var(--transition);
+}
+.form-row input:focus, .form-row textarea:focus, .form-row select:focus {
+  outline: none; border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-glow);
+}
+.form-row textarea { resize: vertical; min-height: 120px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 480px) { .form-grid { grid-template-columns: 1fr; } }
+.form-submit {
+  width: 100%; padding: 0.85rem; margin-top: 0.5rem;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background: var(--navy); color: var(--cream); padding: 3.5rem 0 2rem;
+  border-top: 1px solid rgba(244, 239, 230, 0.06);
+}
+.footer-inner {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 2rem;
+}
+.footer-brand { max-width: 320px; }
+.footer-logo {
+  font-family: var(--font-heading); font-size: 1.2rem;
+  margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem;
+}
+.footer-brand p {
+  font-size: 0.85rem; color: var(--cream-dim); line-height: 1.6;
+}
+.footer-links h4 {
+  font-family: var(--font-body); font-weight: 600; font-size: 0.8rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--cream-dim); margin-bottom: 1rem;
+}
+.footer-links ul { list-style: none; }
+.footer-links li { margin-bottom: 0.5rem; }
+.footer-links a {
+  font-size: 0.88rem; color: var(--cream-dim);
+  transition: color var(--transition);
+}
+.footer-links a:hover { color: var(--cream); }
+
+.footer-bottom {
+  margin-top: 2.5rem; padding-top: 1.5rem;
+  border-top: 1px solid rgba(244, 239, 230, 0.06);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-bottom p {
+  font-size: 0.78rem; color: var(--grey-400); line-height: 1.5;
+}
+.footer-legal { display: flex; gap: 1.5rem; }
+.footer-legal a {
+  font-size: 0.78rem; color: var(--grey-400);
+  transition: color var(--transition);
+}
+.footer-legal a:hover { color: var(--cream-dim); }
+
+/* ============================================================
+   SCROLL ANIMATIONS
+   ============================================================ */
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ============================================================
+   MISC
+   ============================================================ */
+::selection { background: var(--blue); color: var(--cream); }
+</style>
+</head>
+<body>
+
+<!-- ========== NAVIGATION ========== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" data-page="home">
+      <span class="nav-logo-mark">
+        <svg viewBox="0 0 32 32" fill="none">
+          <rect x="2" y="2" width="28" height="28" rx="4" stroke="#1A3FBF" stroke-width="2"/>
+          <rect x="8" y="8" width="10" height="10" rx="2" fill="#1A3FBF" opacity="0.8"/>
+          <rect x="14" y="14" width="10" height="10" rx="2" fill="#1A3FBF" opacity="0.4"/>
+        </svg>
+      </span>
+      Implify
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#" data-page="home" class="active">Home</a></li>
+      <li><a href="#" data-page="services">Services</a></li>
+      <li><a href="#" data-page="about">About</a></li>
+      <li><a href="#" data-page="contact" class="nav-cta">Get in Touch</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ========== HOME PAGE ========== -->
+<main class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-grid"></div>
+      <div class="hero-gradient"></div>
+      <div class="hero-gradient-2"></div>
+      <div class="hero-shapes">
+        <div class="hero-shape hero-shape-1"></div>
+        <div class="hero-shape hero-shape-2"></div>
+        <div class="hero-shape hero-shape-3"></div>
+        <div class="hero-dot hero-dot-1"></div>
+        <div class="hero-dot hero-dot-2"></div>
+        <div class="hero-dot hero-dot-3"></div>
+        <div class="hero-line hero-line-1"></div>
+        <div class="hero-line hero-line-2"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-label">
+          <span class="hero-label-line"></span>
+          IT Implementation Consultancy
+        </div>
+        <h1>Software implementation, <em>done properly</em></h1>
+        <p class="hero-sub">Implify Solutions partners with organisations to deliver robust, well-governed technology implementations — from Microsoft 365 and CRM to service management and systems integration.</p>
+        <div class="hero-actions">
+          <a href="#" class="btn btn-primary" data-page="services">
+            Our Services <span class="btn-arrow">&rarr;</span>
+          </a>
+          <a href="#" class="btn btn-outline" data-page="contact">
+            Start a Conversation
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Overview -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">
+          <span class="section-label-line"></span> What We Do
+        </div>
+        <h2>Implementation expertise across the platforms that matter</h2>
+        <p>We take complex technology platforms and make them work for your organisation — with proper governance, user adoption, and long-term sustainability built in from day one.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+          </div>
+          <h3>Microsoft 365 &amp; SharePoint</h3>
+          <p>Intranet design, hub site architecture, governance frameworks, and migration. Enterprise-grade SharePoint Online implementations that users actually adopt.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>CRM Implementation</h3>
+          <p>Platform-agnostic CRM delivery — from requirements through configuration, data migration, integration, and training. We make your client relationships visible and actionable.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          </div>
+          <h3>Service Desk Implementation</h3>
+          <p>ITSM and service desk platforms designed around your actual workflows. Incident, request, change, and problem management configured to work, not just exist.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+          </div>
+          <h3>Systems Integration</h3>
+          <p>Connecting your platforms so they actually talk to each other. API integrations, data flows, and joined-up systems that eliminate manual workarounds.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Implify -->
+  <section class="section section-dark">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">
+          <span class="section-label-line"></span> Why Implify
+        </div>
+        <h2>A different kind of consultancy</h2>
+        <p>We're here to get things done — not to bill you for meetings about meetings. Personable, practical, and refreshingly straightforward.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-item reveal">
+          <div class="why-number">01</div>
+          <h3>We get things done</h3>
+          <p>We fail fast, learn, and move forward. No drawn-out discovery phases, no death by PowerPoint. If something isn't working, we'll tell you — and then we'll fix it.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-number">02</div>
+          <h3>Easy to work with</h3>
+          <p>We're human. We're personable. We don't hide behind jargon or process for the sake of it. You'll actually enjoy working with us — and that matters more than most consultancies admit.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-number">03</div>
+          <h3>You're the client</h3>
+          <p>We never forget who we're working for. Your priorities drive the work, your team gets the credit, and your organisation owns the outcome. It's your project — we just make it happen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How We Work -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header section-header-center reveal">
+        <div class="section-label" style="justify-content:center;">
+          <span class="section-label-line"></span> How We Work
+        </div>
+        <h2>Straightforward, transparent delivery</h2>
+        <p>No surprises. No scope creep disguised as discovery. A clear process from first conversation to handover.</p>
+      </div>
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="process-step-num">1</div>
+          <h3>Understand</h3>
+          <p>We listen, ask the right questions, and define what success looks like before any work begins.</p>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-step-num">2</div>
+          <h3>Design</h3>
+          <p>Architecture and configuration designed around your specific needs, constraints, and existing landscape.</p>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-step-num">3</div>
+          <h3>Implement</h3>
+          <p>Hands-on build, configuration, and integration — with regular demos and no black-box development.</p>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-step-num">4</div>
+          <h3>Embed</h3>
+          <p>Training, documentation, and transition. Your team owns the solution and knows how to run it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <div class="container">
+      <h2 class="reveal">Ready to discuss your next implementation?</h2>
+      <p class="reveal">Let's start with a conversation about what you're trying to achieve.</p>
+      <a href="#" class="btn btn-primary reveal" data-page="contact">
+        Get in Touch <span class="btn-arrow">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========== SERVICES PAGE ========== -->
+<main class="page" id="page-services">
+
+  <section class="page-hero">
+    <div class="hero-grid"></div>
+    <div class="hero-gradient" style="top:-60%;right:-30%;width:90vw;height:90vw;"></div>
+    <div class="container">
+      <div class="page-hero-content">
+        <div class="hero-label">
+          <span class="hero-label-line"></span> Services
+        </div>
+        <h1>What we deliver</h1>
+        <p>We specialise in the implementation of business-critical platforms — configured to your requirements, governed properly, and adopted by your teams.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- M365 -->
+  <section class="service-detail">
+    <div class="container">
+      <div class="service-detail-inner">
+        <div>
+          <div class="service-detail-label">Microsoft 365</div>
+          <h2>SharePoint Online &amp; Microsoft 365 Implementation</h2>
+        </div>
+        <div>
+          <p>We design and build SharePoint Online intranets, hub sites, and collaboration environments that meet enterprise governance standards while remaining genuinely usable.</p>
+          <p>Our approach covers information architecture, navigation design, permissions governance, content migration, and user adoption — ensuring your investment in Microsoft 365 delivers measurable value.</p>
+          <ul class="service-detail-list">
+            <li>Intranet and hub site design and build</li>
+            <li>Information architecture and taxonomy</li>
+            <li>Governance frameworks and permissions models</li>
+            <li>Content migration from legacy platforms</li>
+            <li>Teams and collaboration workspace strategy</li>
+            <li>Power Platform integration where appropriate</li>
+            <li>User adoption and change management</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CRM -->
+  <section class="service-detail section-alt">
+    <div class="container">
+      <div class="service-detail-inner">
+        <div>
+          <div class="service-detail-label">CRM</div>
+          <h2>CRM Implementation</h2>
+        </div>
+        <div>
+          <p>We implement CRM platforms that give your client-facing teams a single, reliable view of relationships, pipeline, and activity — configured around how your business actually works.</p>
+          <p>Platform-agnostic and pragmatic, we focus on the fundamentals: clean data, sensible processes, and an interface people will actually use every day.</p>
+          <ul class="service-detail-list">
+            <li>Requirements analysis and platform selection support</li>
+            <li>System configuration and customisation</li>
+            <li>Data cleansing, mapping, and migration</li>
+            <li>Integration with email, calendar, and core business systems</li>
+            <li>Reporting and dashboard design</li>
+            <li>User training and adoption programmes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Desk -->
+  <section class="service-detail">
+    <div class="container">
+      <div class="service-detail-inner">
+        <div>
+          <div class="service-detail-label">ITSM</div>
+          <h2>Service Desk Implementation</h2>
+        </div>
+        <div>
+          <p>We implement service desk and ITSM platforms that reflect your actual support processes — not a generic out-of-the-box configuration that nobody follows.</p>
+          <p>Whether you need a straightforward IT helpdesk or a full ITIL-aligned service management capability, we configure it to work within your operational reality.</p>
+          <ul class="service-detail-list">
+            <li>Service desk platform configuration</li>
+            <li>Incident, request, change, and problem management workflows</li>
+            <li>Self-service portal design</li>
+            <li>SLA configuration and escalation rules</li>
+            <li>Knowledge base setup and structure</li>
+            <li>Integration with monitoring, asset management, and identity systems</li>
+            <li>Reporting on service performance metrics</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Systems Integration -->
+  <section class="service-detail section-alt">
+    <div class="container">
+      <div class="service-detail-inner">
+        <div>
+          <div class="service-detail-label">Integration</div>
+          <h2>Systems Integration</h2>
+        </div>
+        <div>
+          <p>Most organisations run dozens of platforms that don't talk to each other. We connect them — building the integrations, data flows, and automation that turn a collection of tools into a joined-up system.</p>
+          <p>Whether it's syncing your CRM with your finance platform, connecting your service desk to monitoring tools, or building custom API integrations, we make your systems work together so your people don't have to be the glue.</p>
+          <ul class="service-detail-list">
+            <li>API and middleware integration design and build</li>
+            <li>Data mapping, transformation, and synchronisation</li>
+            <li>Platform connector configuration</li>
+            <li>Workflow automation across systems</li>
+            <li>Integration testing and monitoring</li>
+            <li>Legacy system bridging and migration support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <div class="container">
+      <h2 class="reveal">Let's talk about your implementation</h2>
+      <p class="reveal">Every project starts with understanding what you need. Get in touch to start the conversation.</p>
+      <a href="#" class="btn btn-primary reveal" data-page="contact">
+        Get in Touch <span class="btn-arrow">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========== ABOUT PAGE ========== -->
+<main class="page" id="page-about">
+
+  <section class="page-hero">
+    <div class="hero-grid"></div>
+    <div class="hero-gradient" style="top:-60%;right:-30%;width:90vw;height:90vw;"></div>
+    <div class="container">
+      <div class="page-hero-content">
+        <div class="hero-label">
+          <span class="hero-label-line"></span> About
+        </div>
+        <h1>Founder-led, senior-delivered</h1>
+        <p>Implify Solutions is a consultancy built on the principle that implementation work should be done by people who care about getting it right.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text reveal">
+          <p>Implify Solutions Ltd was founded because too much of IT consulting is unnecessarily painful — overengineered processes, impenetrable jargon, and a strange reluctance to just get on with the work.</p>
+          <p>We're a founder-led consultancy that works with organisations who need technology implementations done properly. Microsoft 365, CRM, service desks, systems integration — we take complex platforms and make them work in the real world.</p>
+          <p>We're straightforward, easy to work with, and genuinely invested in your success. The consultant you engage is the person who does the work. We fail fast, communicate openly, and never lose sight of the fact that you're the client.</p>
+          <p>No theatre. No jargon for the sake of it. Just experienced people who care about doing good work and are actually pleasant to have around while they do it.</p>
+        </div>
+        <div class="about-values reveal">
+          <h3>How we operate</h3>
+          <div class="about-value">
+            <h4>Direct engagement</h4>
+            <p>You work directly with the consultant delivering your project. No intermediaries, no Chinese whispers, no lost context.</p>
+          </div>
+          <div class="about-value">
+            <h4>Proportionate governance</h4>
+            <p>We bring rigour without bureaucracy. Right-sized documentation, appropriate process, and governance that serves the project — not the other way around.</p>
+          </div>
+          <div class="about-value">
+            <h4>Knowledge transfer</h4>
+            <p>We build solutions your team can own. Training, documentation, and capability building are part of every engagement, not an afterthought.</p>
+          </div>
+          <div class="about-value">
+            <h4>Transparent communication</h4>
+            <p>Regular, honest updates. If something isn't working, you'll hear about it early — along with a recommendation for how to fix it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <div class="container">
+      <h2 class="reveal">Interested in working together?</h2>
+      <p class="reveal">Get in touch to discuss how Implify can support your next implementation project.</p>
+      <a href="#" class="btn btn-primary reveal" data-page="contact">
+        Start a Conversation <span class="btn-arrow">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========== CONTACT PAGE ========== -->
+<main class="page" id="page-contact">
+
+  <section class="page-hero">
+    <div class="hero-grid"></div>
+    <div class="hero-gradient" style="top:-60%;right:-30%;width:90vw;height:90vw;"></div>
+    <div class="container">
+      <div class="page-hero-content">
+        <div class="hero-label">
+          <span class="hero-label-line"></span> Contact
+        </div>
+        <h1>Let's talk</h1>
+        <p>Whether you have a specific project in mind or want to explore how we might work together, we'd welcome the conversation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <h2>Get in touch</h2>
+          <p>We're always happy to have an initial conversation about your requirements — no pitch decks, no pressure, just an honest discussion about what you need and whether we can help.</p>
+
+          <div class="contact-detail">
+            <div class="contact-detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-detail-label">Email</div>
+              <div class="contact-detail-value">hello@implifysolutions.co.uk</div>
+            </div>
+          </div>
+
+          <div class="contact-detail">
+            <div class="contact-detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="contact-detail-label">Location</div>
+              <div class="contact-detail-value">London, United Kingdom</div>
+            </div>
+          </div>
+
+          <div class="contact-detail">
+            <div class="contact-detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <div>
+              <div class="contact-detail-label">Availability</div>
+              <div class="contact-detail-value">Accepting new engagements</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form reveal">
+          <form id="contactForm" onsubmit="handleSubmit(event)">
+            <div class="form-grid">
+              <div class="form-row">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required placeholder="Your name">
+              </div>
+              <div class="form-row">
+                <label for="company">Company</label>
+                <input type="text" id="company" name="company" placeholder="Your organisation">
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required placeholder="you@company.com">
+            </div>
+            <div class="form-row">
+              <label for="subject">What can we help with?</label>
+              <select id="subject" name="subject">
+                <option value="">Select a service area</option>
+                <option value="m365">Microsoft 365 &amp; SharePoint</option>
+                <option value="crm">CRM Implementation</option>
+                <option value="itsm">Service Desk / ITSM</option>
+                <option value="integration">Systems Integration</option>
+                <option value="other">Other / General Enquiry</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="message">Tell us about your project</label>
+              <textarea id="message" name="message" rows="5" placeholder="A brief overview of what you're looking to achieve..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit">
+              Send Message <span class="btn-arrow">&rarr;</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========== PRIVACY POLICY PAGE ========== -->
+<main class="page" id="page-privacy">
+
+  <section class="page-hero">
+    <div class="hero-grid"></div>
+    <div class="hero-gradient" style="top:-60%;right:-30%;width:90vw;height:90vw;"></div>
+    <div class="container">
+      <div class="page-hero-content">
+        <div class="hero-label">
+          <span class="hero-label-line"></span> Legal
+        </div>
+        <h1>Privacy Policy</h1>
+        <p>How we handle your data. The short version: we collect very little, we don't share it, and we don't spam you.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width:760px;">
+
+      <div class="reveal" style="margin-bottom:2.5rem;">
+        <h3 style="margin-bottom:0.8rem; color:var(--navy);">Who we are</h3>
+        <p style="color:var(--grey-600); line-height:1.75;">Implify Solutions Ltd is a company registered in England and Wales. Our registered address is in London, United Kingdom. When we refer to "we", "us", or "our" in this policy, we mean Implify Solutions Ltd.</p>
+      </div>
+
+      <div class="reveal" style="margin-bottom:2.5rem;">
+        <h3 style="margin-bottom:0.8rem; color:var(--navy);">What data we collect</h3>
+        <p style="color:var(--grey-600); line-height:1.75; margin-bottom:0.8rem;">We collect information you provide directly to us through our contact form:</p>
+        <ul class="service-detail-list">
+          <li>Your name</li>
+          <li>Your email address</li>
+          <li>Your company name (if provided)</li>
+          <li>The content of your message</li>
+        </ul>
+        <p style="color:var(--grey-600); line-height:1.75; margin-top:1rem;">We do not use analytics, tracking cookies, or third-party advertising on this website.</p>
+      </div>
+
+      <div class="reveal" style="margin-bottom:2.5rem;">
+        <h3 style="margin-bottom:0.8rem; color:var(--navy);">How we use your data</h3>
+        <p style="color:var(--grey-600); line-height:1.75;">We use the information you provide solely to respond to your enquiry and, where relevant, to discuss potential engagements. We will not add you to a mailing list, send you marketing communications, or share your information with third parties.</p>
+      </div>
+
+      <div class="reveal" style="margin-bottom:2.5rem;">
+        <h3 style="margin-bottom:0.8rem; color:var(--navy);">Legal basis for processing</h3>
+        <p style="color:var(--grey-600); line-height:1.75;">We process your personal data on the basis of legitimate interest — specifically, to respond to business enquiries directed to us. Where we enter into a contract with you, we process data as necessary for the performance of that contract.</p>
+      </div>
+
+      <div class="reveal" style="margin-bottom:2.5rem;">
+        <h3 style="margin-bottom:0.8rem; color:var(--navy);">Data retention</h3>
+        <p style="color:var(--grey-600); line-height:1.75;">We retain enquiry data for as long as is necessary to respond to your query and for a reasonable period thereafter in case of follow-up. If we enter into a working relationship, we retain data in accordance with our contractual and legal obligations. You can request deletion of your data at any time.</p>
+      </div>
+
+      <div class="reveal" style="margin-bottom:2.5rem;">
+        <h3 style="margin-bottom:0.8rem; color:var(--navy);">Data sharing</h3>
+        <p style="color:var(--grey-600); line-height:1.75;">We do not sell, trade, or share your personal data with third parties. We may use third-party services to host this website or process contact form submissions, in which case those providers act as data processors on our behalf and are bound by appropriate agreements.</p>
+      </div>
+
+      <div class="reveal" style="margin-bottom:2.5rem;">
+        <h3 style="margin-bottom:0.8rem; color:var(--navy);">Your rights</h3>
+        <p style="color:var(--grey-600); line-height:1.75;">Under UK GDPR, you have the right to access, correct, or delete the personal data we hold about you. You also have the right to restrict or object to our processing of your data. To exercise any of these rights, contact us at hello@implifysolutions.co.uk.</p>
+      </div>
+
+      <div class="reveal" style="margin-bottom:2.5rem;">
+        <h3 style="margin-bottom:0.8rem; color:var(--navy);">Cookies</h3>
+        <p style="color:var(--grey-600); line-height:1.75;">This website does not use cookies for tracking or advertising purposes. If this changes in the future, we will update this policy and provide appropriate notice.</p>
+      </div>
+
+      <div class="reveal" style="margin-bottom:2.5rem;">
+        <h3 style="margin-bottom:0.8rem; color:var(--navy);">Changes to this policy</h3>
+        <p style="color:var(--grey-600); line-height:1.75;">We may update this privacy policy from time to time. Any changes will be posted on this page.</p>
+        <p style="color:var(--grey-400); font-size:0.85rem; margin-top:1rem;">Last updated: April 2026</p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg viewBox="0 0 32 32" fill="none" width="24" height="24">
+            <rect x="2" y="2" width="28" height="28" rx="4" stroke="#1A3FBF" stroke-width="2"/>
+            <rect x="8" y="8" width="10" height="10" rx="2" fill="#1A3FBF" opacity="0.8"/>
+            <rect x="14" y="14" width="10" height="10" rx="2" fill="#1A3FBF" opacity="0.4"/>
+          </svg>
+          Implify Solutions
+        </div>
+        <p>IT consultancy specialising in software implementation for enterprise organisations.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#" data-page="home">Home</a></li>
+          <li><a href="#" data-page="services">Services</a></li>
+          <li><a href="#" data-page="about">About</a></li>
+          <li><a href="#" data-page="contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#" data-page="services">Microsoft 365</a></li>
+          <li><a href="#" data-page="services">CRM Implementation</a></li>
+          <li><a href="#" data-page="services">Service Desk</a></li>
+          <li><a href="#" data-page="services">Systems Integration</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Implify Solutions Ltd. Registered in England and Wales. Professional indemnity insured.</p>
+      <div class="footer-legal">
+        <a href="#" data-page="privacy">Privacy Policy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== JAVASCRIPT ========== -->
+<script>
+(function() {
+  // --- Page Navigation ---
+  const pages = document.querySelectorAll('.page');
+  const navLinks = document.querySelectorAll('[data-page]');
+
+  function navigateTo(pageId) {
+    // Hide all pages
+    pages.forEach(p => p.classList.remove('active'));
+    // Show target
+    const target = document.getElementById('page-' + pageId);
+    if (target) target.classList.add('active');
+
+    // Update nav active state
+    document.querySelectorAll('.nav-links a[data-page]').forEach(a => {
+      a.classList.toggle('active', a.dataset.page === pageId);
+    });
+
+    // Close mobile menu
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('navToggle').classList.remove('open');
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'instant' });
+
+    // Re-run reveal observer for new page
+    observeReveals();
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      navigateTo(this.dataset.page);
+    });
+  });
+
+  // --- Mobile Menu ---
+  const navToggle = document.getElementById('navToggle');
+  const navLinksEl = document.getElementById('navLinks');
+
+  navToggle.addEventListener('click', function() {
+    this.classList.toggle('open');
+    navLinksEl.classList.toggle('open');
+  });
+
+  // --- Scroll Reveal ---
+  function observeReveals() {
+    const reveals = document.querySelectorAll('.page.active .reveal:not(.visible)');
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      reveals.forEach(el => obs.observe(el));
+    } else {
+      reveals.forEach(el => el.classList.add('visible'));
+    }
+  }
+
+  // Initial observe
+  observeReveals();
+
+  // --- Nav background on scroll ---
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 50) {
+      nav.style.background = 'rgba(10, 22, 40, 0.97)';
+    } else {
+      nav.style.background = 'rgba(10, 22, 40, 0.92)';
+    }
+  });
+
+  // --- Contact Form ---
+  window.handleSubmit = function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button[type="submit"]');
+    const origText = btn.innerHTML;
+    btn.innerHTML = 'Message Sent &#10003;';
+    btn.style.background = '#16a34a';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = origText;
+      btn.style.background = '';
+      btn.disabled = false;
+      form.reset();
+    }, 3000);
+  };
+})();
+</script>
+
+</body>
+</html>
